@@ -85,34 +85,11 @@ struct VideoPlayerView: View {
 
         let playerItem = AVPlayerItem(url: videoURL)
 
-        // 添加请求头
-        let headers = [
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
-        ]
-
-        if let referer = getReferer(for: url) {
-            playerItem.asset.resourceLoader?.delegate = self as? AVAssetResourceLoaderDelegate
-        }
-
         let newPlayer = AVPlayer(playerItem: playerItem)
         newPlayer.allowsExternalPlayback = true
         newPlayer.usesExternalPlaybackWhileExternalScreenIsActive = true
 
-        // 监听播放错误
-        playerItem.addObserver(self as! NSObject, forKeyPath: "status", options: [.new, .initial], context: nil)
-
         self.player = newPlayer
-    }
-
-    private func getReferer(for url: String) -> String? {
-        if url.contains("douyin") || url.contains("douyinvod") || url.contains("douyincdn") {
-            return "https://www.douyin.com/"
-        } else if url.contains("kuaishou") || url.contains("ksyun") {
-            return "https://www.kuaishou.com/"
-        } else if url.contains("bilibili") || url.contains("hdslb") {
-            return "https://www.bilibili.com/"
-        }
-        return nil
     }
 }
 
